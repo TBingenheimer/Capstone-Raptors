@@ -90,7 +90,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.7</version> <!-- Aktuelle Version prüfen -->
+				<version>0.8.13</version> <!-- Aktuelle Version prüfen -->
 				<executions>
 					<execution>
 						<goals>
