@@ -1,0 +1,32 @@
+@raptorGreen : #6ca741;
+@raptorBlue : #2c3791;
+
+.tournament-card-wrap {
+  display: flex;
+  gap:20px;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 1200px;
+  margin:auto;
+
+
+  .tournament-card {
+    width: 25%;
+    padding: 10px;
+    box-sizing: border-box;
+    box-shadow : 5px 5px 5px rgba(0,0,0,0.3);
+    border: 1px solid silver;
+    border-radius:5px;
+
+    a {
+      border: 1px solid @raptorGreen;
+      border-radius: 5px;
+      padding:5px 10px;
+      float:right;
+      text-decoration:none;
+      cursor:pointer;
+      color:white;
+      background-color: @raptorGreen;
+    }
+  }
+}
