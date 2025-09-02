@@ -1,5 +1,6 @@
 import type {UserObject} from "../types/User.ts";
 import type {TournamentObject} from "../types/Tournament.ts";
+import {TournamentCard} from "../components/TournamentCard.tsx";
 
 type turnierProps = {
     user : UserObject;
@@ -25,8 +26,8 @@ export function TurnierUeberstichPage({user}:turnierProps) {
 
     return (
         <>
-            {mockTurnierListe.map((turnier:TournamentObject) => {
-                <TournamentCard  />
+            {mockTurnierListe.map((tournament:TournamentObject) => {
+                <TournamentCard tournament={tournament} />
             })}
         </>
     );
