@@ -26,7 +26,7 @@ export function TurnierUeberstichPage({user}:turnierProps) {
 
     return (
         <div className="tournament-card-wrap">
-            {mockTurnierListe.map((tournament)=> {
+            {mockTurnierListe.map((tournament:TournamentObject)=> {
                 return <TournamentCard key={tournament.name} tournament={tournament}  />
             })}
         </div>
