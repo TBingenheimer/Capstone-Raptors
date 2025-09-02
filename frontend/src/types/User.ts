@@ -2,8 +2,8 @@ export type UserObject = {
     id: string,
     username: string,
     usernameAlias: string,
-    avatarUrl: string,
+    avatar_url: string,
     avatarUrlAlias: string,
 }
 
-export type User = UserObj | null | undefined
+export type User = UserObject | null | undefined
