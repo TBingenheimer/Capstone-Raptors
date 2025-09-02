@@ -7,9 +7,9 @@ type ProtectedRouteProps = {
 }
 
 export function ProtectedRoute({user}: ProtectedRouteProps) {
+    //<Navigate to={routerConfig.URL.HOME}/>
     if(user ===  undefined) {
-        return <Navigate to={routerConfig.URL.HOME}/>
+        return 'Läd...';
     }
-
     return (<Outlet />)
 }
