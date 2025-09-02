@@ -9,7 +9,7 @@ export function TournamentCard({tournament}:TournamentProps) {
 
     return (
         <>
-
+            {tournament.name}
         </>
     );
 }
