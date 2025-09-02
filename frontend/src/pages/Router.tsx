@@ -1,6 +1,7 @@
 import {Routes, Route} from "react-router-dom";
 import {routerConfig} from "../routerConfig.ts";
-import {ProtectedRoute} from "./protectedRoute.tsx"
+import {ProtectedRoute} from "./ProtectedRoute.tsx"
+import {TurnierUeberstichPage} from "./TurnierUebersichtPage.tsx";
 import {HomePage} from "./HomePage.tsx";
 import type {UserObject} from "../types/User.ts";
 
@@ -14,7 +15,9 @@ export function Router({user}:RouterProps){
             <Route path="/"  element={<HomePage  user={user}/>} />
             <Route path={routerConfig.URL.HOME} element={<HomePage user={user}/>} />
             <Route path={routerConfig.URL.LOGOUT} element={<HomePage user={user}/>}/>
-            <Route path={routerConfig.URL.TURNIERE} element={<TurnierUebersichtPage user={user}/>}/>
+            <Route element={<ProtectedRoute user={user}/>} >
+                <Route path={routerConfig.URL.TURNIERE} element={<TurnierUeberstichPage user={user}/>}/>
+            </Route>
         </Routes>
     );
 }
