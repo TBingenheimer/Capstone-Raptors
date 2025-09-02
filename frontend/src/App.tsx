@@ -1,33 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import axios from "axios";
+import {useEffect, useState} from "react";
+import type {UserObject} from "./types/User.ts";
+
+import {Router} from "./pages/Router.tsx";
+import {Navbar} from "./components/Navbar.tsx";
+
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [user, setUser] = useState<UserObject>(undefined);
+
+
+    const loadUser = () => {
+        axios.get("/api/auth")
+            .then((response) => {
+                let userData = response.data.attributes;
+                setUser(userData
+                );
+            });
+    }
+    const login = (event)=> {
+        event.preventDefault();
+        const host:string = window.location.host === "localhost:5173" ? "http://localhost:8080" : window.location.origin;
+        window.open(host + "/oauth2/authorization/github", "_self")
+    }
+    const logout = (event) =>{
+        event.preventDefault();
+        const host:string = window.location.host === "localhost:5173" ? "http://localhost:8080" : window.location.origin;
+        window.open(host + "/logout","_self");
+    }
+    useEffect(()=>{
+        loadUser();
+    },[]);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <header>
+        <Navbar user={user} logout={logout} login={login} />
+      </header>
+      <Router user={user} />
     </>
   )
 }
