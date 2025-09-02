@@ -7,28 +7,28 @@ type turnierProps = {
 }
 
 export function TurnierUeberstichPage({user}:turnierProps) {
-    let mockTurnierListe:TournamentObject[] = [
+    let mockTurnierListe = [
         {
             name : "Turnier zu Bochum",
             startDate : "2025-09-29",
             endDate : "2025-09-31",
-            description : "Tolles Turnier in Bochum",
+            description : "Tolles Turnier in BOCHUM",
             participants : 5,
         },
         {
             name : "Turnier zu Münster",
-            startDate : "2025-09-29",
-            endDate : "2025-09-31",
-            description : "Tolles Turnier in Bochum",
-            participants : 5,
+            startDate : "2025-07-25",
+            endDate : "2025-07-27",
+            description : "Tolles Turnier in MÜNSTER",
+            participants : 7,
         }
     ];
 
     return (
-        <>
-            {mockTurnierListe.map((tournament:TournamentObject) => {
-                <TournamentCard tournament={tournament} />
+        <div className="tournament-card-wrap">
+            {mockTurnierListe.map((tournament)=> {
+                return <TournamentCard key={tournament.name} tournament={tournament}  />
             })}
-        </>
+        </div>
     );
 }
