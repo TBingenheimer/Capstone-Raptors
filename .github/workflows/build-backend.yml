@@ -2,7 +2,7 @@ name: Sonar.backend
 on:
   push:
     branches:
-      - main
+      - development
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
@@ -34,4 +34,4 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         working-directory: backend
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=tbingenheimer_book-library_backend
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey==tbingenheimer-1_Raptors-Capstone-backend

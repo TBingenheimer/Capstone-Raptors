@@ -28,7 +28,7 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
-		<sonar.organization>tbingenheimer</sonar.organization>
+		<sonar.organization>tbingenheimer-1</sonar.organization>
 	</properties>
 	<dependencies>
 		<dependency>

@@ -2,7 +2,7 @@ name: Sonar.frontend
 on:
   push:
     branches:
-      - main
+      - development
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
