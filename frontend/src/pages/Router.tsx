@@ -14,6 +14,7 @@ export function Router({user}:RouterProps){
             <Route path="/"  element={<HomePage  user={user}/>} />
             <Route path={routerConfig.URL.HOME} element={<HomePage user={user}/>} />
             <Route path={routerConfig.URL.LOGOUT} element={<HomePage user={user}/>}/>
+            <Route path={routerConfig.URL.TURNIERE} element={<TurnierUebersichtPage user={user}/>}/>
         </Routes>
     );
 }
