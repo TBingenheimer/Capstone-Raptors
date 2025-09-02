@@ -6,6 +6,7 @@ type URL = {
     HOME: string,
     LOGOUT : string,
     TURNIERE : string,
+    TURNIER : (id:string)=>string,
 }
 
 export const routerConfig:RouterConfig = {
@@ -13,5 +14,6 @@ export const routerConfig:RouterConfig = {
         HOME:"/",
         LOGOUT: "/logout",
         TURNIERE: "/turniere",
+        TURNIER:(id)=> `/turnier/${id}`,
     }
 }
