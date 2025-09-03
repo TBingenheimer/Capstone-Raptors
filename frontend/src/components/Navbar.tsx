@@ -23,7 +23,9 @@ export function Navbar({user,login,logout}:NavbarProps) {
 
     return (
         <nav>
-            <img src={"../src/assets/150xRaptors_contour.png"} id={"navIcon"} />
+            <a href={"/"}>
+                <img src={"../src/assets/150xRaptors_contour.png"} id={"navIcon"} />
+            </a>
             <ul id={"navMenu"}>
                 <li>
                     <a href={"/"}>Home</a>
