@@ -7,7 +7,7 @@ type turnierProps = {
     user : UserObject;
 }
 
-export function TurnierUeberstichPage({user}:turnierProps) {
+export function TournamentOverviewPage({user}:turnierProps) {
     let mockTurnierListe = [
         {
             name : "Turnier zu Bochum",
@@ -26,9 +26,9 @@ export function TurnierUeberstichPage({user}:turnierProps) {
     ];
 
     return (
-
         <div className="tournament-card-wrap">
             <link href={"../src/styles/TournamentOverview.css"} rel="stylesheet" />
+            <h1 style={{width:"100%"}}>Offene Turniere</h1>
             {mockTurnierListe.map((tournament:TournamentObject)=> {
                 return <TournamentCard key={tournament.name} tournament={tournament}  />
             })}
