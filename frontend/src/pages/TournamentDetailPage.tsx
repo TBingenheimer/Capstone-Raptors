@@ -1,55 +1,48 @@
 import type { TournamentObject } from "../types/Tournament.ts";
 import "../styles/TournamentDetail.css";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import axios from "axios";
+import {useParams} from "react-router-dom";
+import {RenderedCar} from "../components/RenderedCar.tsx";
+import type {CarObject} from "../types/Car.ts";
 
 type TournamentDetailPage = {
     tournament: TournamentObject;
 };
 
 export function TournamentDetailPage() {
-    let tournament = {
-        name : "Turnier zu Bochum",
-        startDate : "2025-09-29",
-        endDate : "2025-09-31",
-        description : "Tolles Turnier in BOCHUM",
-        currParticipants : 5,
-        participants : [1,2,3,5,6]
+    const [cars, setCars] = useState<CarObject[]>([]);
+    const [tournament, setTournamentData] = useState<TournamentObject[]>([]);
+    let params = useParams();
 
-    };
-    console.log(tournament);
-    let cars = [
-        {
-            driver : 1,
-            seats : 4,
-            startTime : "2025-09-29 17:00:00",
-            riders : [3,4,2]
-        },
-        {
-            driver:5,
-            seats:5,
-            startTime : "2025-09-29 15:00:00",
-            riders : [7,8]
-        }
-    ];
+    useEffect(() => {
+        axios.get("/api/tournament/getTournament/"+params.name)
+            .then((response) => {
+                    setTournamentData(response.data);
+                    axios.get<CarObject[]>("/api/cars/getCars/"+response.data.id)
+                        .then((response)=>{
+                            setCars(response.data);
+                        })
+                        .catch((error) => {
+                            console.error("Fehler beim Laden der Cars:", error);
+                        });
+                }
+            );
+    },[]);
+    function addNewCar(){
 
-    let tcarString;
-    cars.forEach(car => {
-        console.log(car.riders);
-        tcarString += '<div class="car">';
-        for (let j = 0; j < car.seats; j++) {
-            tcarString += `<div style="border:1px solid black;">${car.riders[j]}</div>`;
-        }
-        tcarString += '</div>';
-    });
-    const [carsString, setCarsString] = useState(tcarString);
-
+    }
 
     return (
-        <div className="tournament-detail-wrap">
+        <div className="tournament-detail-wrap contentWrap">
+            <button onClick={addNewCar()} id={"newCarButton"}>+ Neues Auto hinzufügen</button>
             <h1 style={{marginBottom:"0"}}>{tournament.name}</h1>
             <p style={{fontSize:"0.8em",marginTop:"0",color:"gray",fontStyle:"italic"}}>{tournament.startDate} - {tournament.endDate}</p>
             <p>{tournament.description}</p>
-            {carsString}
+            {cars.map((car)=>(
+                <RenderedCar car={car} />
+            ))}
+
         </div>
     );
 }
