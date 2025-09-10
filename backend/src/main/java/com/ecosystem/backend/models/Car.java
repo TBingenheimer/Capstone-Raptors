@@ -1,4 +1,4 @@
-package com.ecosystem.backend.tournaments.models;
+package com.ecosystem.backend.models;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 

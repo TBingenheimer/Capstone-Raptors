@@ -1,4 +1,5 @@
 export type TournamentObject = {
+    id:string,
     name : string,
     startDate : string,
     endDate : string,

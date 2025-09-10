@@ -1,6 +1,6 @@
 package com.ecosystem.backend.repository;
 
-import com.ecosystem.backend.tournaments.models.Car;
+import com.ecosystem.backend.models.Car;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;

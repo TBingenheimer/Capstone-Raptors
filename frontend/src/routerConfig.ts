@@ -7,6 +7,8 @@ type URL = {
     LOGOUT : string,
     TURNIERE : string,
     TURNIER : string,
+    TOURNAMENT_CREATE : string,
+    PROFILE : string,
 }
 
 export const routerConfig:RouterConfig = {
@@ -15,5 +17,7 @@ export const routerConfig:RouterConfig = {
         LOGOUT: "/logout",
         TURNIERE: "/turniere",
         TURNIER : "/turnier",
+        TOURNAMENT_CREATE: "/turnier/anlegen",
+        PROFILE: "/profile",
     }
 }
