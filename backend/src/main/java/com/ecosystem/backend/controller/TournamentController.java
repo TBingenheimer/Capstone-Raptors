@@ -1,33 +1,27 @@
 package com.ecosystem.backend.controller;
 
-import com.ecosystem.backend.repository.TournamentRepo;
 import com.ecosystem.backend.models.Tournament;
 import com.ecosystem.backend.models.Tournaments;
+import com.ecosystem.backend.service.TournamentService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.util.List;
-
-
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/tournament")
 public class TournamentController {
 
-    private final TournamentRepo tournamentRepo;
+    private final TournamentService tournamentService;
 
-    public TournamentController(TournamentRepo tournamentRepo) {
-        this.tournamentRepo = tournamentRepo;
-    }
 
     @GetMapping("/getAllTournaments")
     public Tournaments getAllTournaments(){
-        List<Tournament> list = tournamentRepo.findAll();
-        System.out.println(list);
-        return new Tournaments(list.toArray(new Tournament[0]));
+        return tournamentService.getAllTournaments();
     }
 
     @GetMapping("/getTournament/{turnier}")
     public Tournament getTournament( @PathVariable String turnier){
-        return tournamentRepo.findTournamentByName(turnier);
+        return tournamentService.findTournamentByName(turnier);
     }
 }
