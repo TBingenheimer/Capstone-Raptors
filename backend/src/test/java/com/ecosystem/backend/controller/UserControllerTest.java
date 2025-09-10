@@ -1,6 +1,7 @@
 package com.ecosystem.backend.controller;
 
 import com.ecosystem.backend.repository.UserRepo;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
@@ -23,6 +24,11 @@ class UserControllerTest {
 
     @Autowired
     private UserRepo userRepo;
+
+    @BeforeEach
+    void cleanDb() {
+        userRepo.deleteAll();
+    }
 
 
     @Test
