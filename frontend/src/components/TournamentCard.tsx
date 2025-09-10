@@ -10,7 +10,7 @@ export function TournamentCard({ tournament }: TournamentCardProps) {
         <div className="tournament-card">
             <h3>{tournament.name}</h3>
             <p>{tournament.startDate}</p>
-            <a href={routerConfig.URL.TURNIER(tournament.name)}>Details</a>
+            <a href={`${routerConfig.URL.TURNIER}/${tournament.name}`}>Details</a>
         </div>
     );
 }

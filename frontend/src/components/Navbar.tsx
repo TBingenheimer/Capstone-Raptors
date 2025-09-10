@@ -1,4 +1,6 @@
 import type {UserObject} from "../types/User.ts";
+import {routerConfig} from "../routerConfig.ts";
+import {ConditionalNav} from "../components/ConditionalNav.tsx";
 
 type NavbarProps = {
     user : UserObject;
@@ -15,6 +17,16 @@ export function Navbar({user,login,logout}:NavbarProps) {
             <>
                 <img src={user.avatar_url} id={"userMenuAvatar"} />
                 <div id={"hiddenMenu"}>
+                    <ul>
+                        <li>
+                            <a href={routerConfig.URL.TOURNAMENT_CREATE}>Neues Turnier</a>
+                        </li>
+                        <li>
+                            <a href={routerConfig.URL.PROFILE}>Profil</a>
+                        </li>
+
+                    </ul>
+
                     <button onClick={logout}>Logout</button>
                 </div>
             </>;
@@ -30,9 +42,7 @@ export function Navbar({user,login,logout}:NavbarProps) {
                 <li>
                     <a href={"/"}>Home</a>
                 </li>
-                <li>
-                    <a href={"/turniere"}>Turniere</a>
-                </li>
+                <ConditionalNav user={user} />
             </ul>
             <div id={"userMenu"}>
             {returnContent}

@@ -1,4 +1,4 @@
-import './App.css'
+import './styles/style.css'
 import axios from "axios";
 import {useEffect, useState} from "react";
 import type {UserObject} from "./types/User.ts";
