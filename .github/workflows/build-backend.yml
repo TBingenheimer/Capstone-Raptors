@@ -2,7 +2,8 @@ name: Sonar.backend
 on:
   push:
     branches:
-      - development
+      - master
+      - -development
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
