@@ -18,12 +18,15 @@ public class TournamentService {
         List<Tournament> list = tournamentRepo.findAll();
         if (list.isEmpty()) {
             Tournament defaultTournament = new Tournament(
-                    "0",                    // id
-                    "",                     // name
-                    "",                    // description
-                    "-",                  // startDate
-                    "-",                     //endDate
-                    0                       // participants
+                    "0",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "-",
+                    "-",
+                    0
             );
             List<Tournament> defaultList = Arrays.asList(defaultTournament);
             System.out.println(defaultList);
@@ -37,9 +40,13 @@ public class TournamentService {
     public Tournament findTournamentByName(String tournamentName){
         Tournament tournament = tournamentRepo.findTournamentByName(tournamentName);
         if (tournament == null) {
-            return new Tournament("0", "", "", "-", "-", 0);
+            return new Tournament("0", "","","","", "", "-", "-", 0);
         }
 
         return tournament;
+    }
+
+    public Tournament createTournament(Tournament tournamentData){
+        return tournamentRepo.save(tournamentData);
     }
 }
