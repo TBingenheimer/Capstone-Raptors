@@ -39,8 +39,11 @@ class TournamentControllerTest {
                         "id":"0",
                         "name":"",
                         "description":"",
-                        "startDate":"-",
-                        "endDate": "-",
+                        street: "",
+                        zip: "",
+                        city: "",
+                        "startDateTime":"-",
+                        "endDateTime": "-",
                         "participants":0
                         }
                     ]}
@@ -57,8 +60,11 @@ class TournamentControllerTest {
                         "id":"0",
                         "name":"",
                         "description":"",
-                        "startDate":"-",
-                        "endDate": "-",
+                        street: "",
+                        zip: "",
+                        city: "",
+                        "startDateTime":"-",
+                        "endDateTime": "-",
                         "participants":0
                         }
                     
