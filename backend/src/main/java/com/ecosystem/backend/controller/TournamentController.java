@@ -24,4 +24,8 @@ public class TournamentController {
     public Tournament getTournament( @PathVariable String turnier){
         return tournamentService.findTournamentByName(turnier);
     }
+    @PostMapping("/createTournament")
+    public Tournament createTournament(@RequestBody Tournament tournament){
+        return tournamentService.createTournament(tournament);
+    }
 }

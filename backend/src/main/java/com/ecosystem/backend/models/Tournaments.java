@@ -1,4 +1,6 @@
 package com.ecosystem.backend.models;
 
-public record Tournaments(Tournament[] tournaments) {
+import java.util.List;
+
+public record Tournaments(List<Tournament> tournaments) {
 }
