@@ -14,18 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Validation: @Valid on @RequestBody, @RequestParam
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ExceptionMessage> handleValidationException(MethodArgumentNotValidException exception) {
-        String errorMessage = exception.getBindingResult().getFieldErrors().stream()
-                .map(f -> f.getField() + " " + f.getDefaultMessage())
-                .findFirst()
-                .orElse("Validation failed");
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(new ExceptionMessage(errorMessage));
-    }
-
     // Catch-all fallback
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionMessage> handleInternalServerException(Exception ex) {
