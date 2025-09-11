@@ -18,23 +18,6 @@ export function TournamentOverviewPage({user}:turnierProps) {
                 setTournaments(response.data.tournaments);
             });
     },[])
-    console.log(tournaments);
-    let mockTurnierListe = [
-        {
-            name : "Turnier zu Bochum",
-            startDate : "2025-09-29",
-            endDate : "2025-09-31",
-            description : "Tolles Turnier in BOCHUM",
-            participants : 5,
-        },
-        {
-            name : "Turnier zu Münster",
-            startDate : "2025-07-25",
-            endDate : "2025-07-27",
-            description : "Tolles Turnier in MÜNSTER",
-            participants : 7,
-        }
-    ];
 
     return (
         <div className="tournament-card-wrap contentWrap">

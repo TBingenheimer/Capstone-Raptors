@@ -5,9 +5,9 @@ export type TournamentObject = {
     street : string,
     zip : string,
     city : string,
-    startDate : string,
-    endDate : string,
+    startDateTime : string,
+    endDateTime : string,
     participants : number,
 }
 
-export type Tournament = TournamentObject | null | undefined
+export type Tournament = TournamentObject

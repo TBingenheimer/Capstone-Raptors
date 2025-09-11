@@ -37,8 +37,11 @@ export function TournamentDetailPage() {
         <div className="tournament-detail-wrap contentWrap">
             <button onClick={addNewCar()} id={"newCarButton"}>+ Neues Auto hinzufügen</button>
             <h1 style={{marginBottom:"0"}}>{tournament.name}</h1>
-            <p style={{fontSize:"0.8em",marginTop:"0",color:"gray",fontStyle:"italic"}}>{tournament.startDate} - {tournament.endDate}</p>
-            <p>{tournament.description}</p>
+            <p style={{fontSize:"0.8em",marginTop:"0",color:"gray",fontStyle:"italic"}}>{tournament.startDateTime} - {tournament.endDateTime}</p>
+            <p><b>Adresse:</b><br />
+                {tournament.street}, {tournament.zip} {tournament.city}
+            </p>
+            <p><b>Beschreibung:</b><br />{tournament.description}</p>
             {cars.map((car)=>(
                 <RenderedCar car={car} />
             ))}
