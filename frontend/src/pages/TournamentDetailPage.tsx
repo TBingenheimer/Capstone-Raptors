@@ -2,7 +2,7 @@ import type { TournamentObject } from "../types/Tournament.ts";
 import "../styles/TournamentDetail.css";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {RenderedCar} from "../components/RenderedCar.tsx";
 import type {CarObject} from "../types/Car.ts";
 
@@ -11,6 +11,7 @@ type TournamentDetailPage = {
 };
 
 export function TournamentDetailPage() {
+    const navigate = useNavigate();
     const [cars, setCars] = useState<CarObject[]>([]);
     const [tournament, setTournamentData] = useState<TournamentObject[]>([]);
     let params = useParams();
@@ -30,12 +31,12 @@ export function TournamentDetailPage() {
             );
     },[]);
     function addNewCar(){
-
+        navigate("/turnier/"+params.name+"/add");
     }
 
     return (
         <div className="tournament-detail-wrap contentWrap">
-            <button onClick={addNewCar()} id={"newCarButton"}>+ Neues Auto hinzufügen</button>
+            <button onClick={addNewCar} id={"newCarButton"}>+ Neues Auto hinzufügen</button>
             <h1 style={{marginBottom:"0"}}>{tournament.name}</h1>
             <p style={{fontSize:"0.8em",marginTop:"0",color:"gray",fontStyle:"italic"}}>{tournament.startDateTime} - {tournament.endDateTime}</p>
             <p><b>Adresse:</b><br />

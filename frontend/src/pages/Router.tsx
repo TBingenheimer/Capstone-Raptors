@@ -8,6 +8,7 @@ import {HomePage} from "./HomePage.tsx";
 
 import type {UserObject} from "../types/User.ts";
 import {UserProfile} from "./UserProfile.tsx";
+import {CarCreate} from "./CarCreate.tsx";
 
 type RouterProps = {
     user : UserObject;
@@ -22,6 +23,7 @@ export function Router({user}:RouterProps){
             <Route element={<ProtectedRoute user={user}/>} >
                 <Route path={routerConfig.URL.TURNIERE} element={<TournamentOverviewPage user={user}/>}/>
                 <Route path={`${routerConfig.URL.TURNIER}/:name`} element={<TournamentDetailPage />}/>
+                <Route path={`${routerConfig.URL.TURNIER}/:name/add`} element={<CarCreate user={user} />}/>
                 <Route path={routerConfig.URL.TOURNAMENT_CREATE} element={<TournamentCreate user={user} />} />
                 <Route path={routerConfig.URL.PROFILE} element={<UserProfile user={user} />} />
             </Route>
