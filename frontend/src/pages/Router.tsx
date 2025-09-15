@@ -22,7 +22,7 @@ export function Router({user}:RouterProps){
             <Route path={routerConfig.URL.LOGOUT} element={<HomePage user={user}/>}/>
             <Route element={<ProtectedRoute user={user}/>} >
                 <Route path={routerConfig.URL.TURNIERE} element={<TournamentOverviewPage user={user}/>}/>
-                <Route path={`${routerConfig.URL.TURNIER}/:name`} element={<TournamentDetailPage />}/>
+                <Route path={`${routerConfig.URL.TURNIER}/:name`} element={<TournamentDetailPage user={user} />}/>
                 <Route path={`${routerConfig.URL.TURNIER}/:name/add`} element={<CarCreate user={user} />}/>
                 <Route path={routerConfig.URL.TOURNAMENT_CREATE} element={<TournamentCreate user={user} />} />
                 <Route path={routerConfig.URL.PROFILE} element={<UserProfile user={user} />} />
