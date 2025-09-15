@@ -10,19 +10,23 @@ type TournamentDetailPage = {
     tournament: TournamentObject;
 };
 
-export function TournamentDetailPage() {
+export function TournamentDetailPage(userObject) {
     const navigate = useNavigate();
     const [cars, setCars] = useState<CarObject[]>([]);
     const [tournament, setTournamentData] = useState<TournamentObject[]>([]);
     let params = useParams();
 
     useEffect(() => {
+        console.log(userObject);
         axios.get("/api/tournament/getTournament/"+params.name)
             .then((response) => {
                     setTournamentData(response.data);
                     axios.get<CarObject[]>("/api/cars/getCars/"+response.data.id)
                         .then((response)=>{
-                            setCars(response.data);
+                            if(response.data.length>0){
+                                setCars(response.data);
+                                document.querySelector("#placeholder").style.display="none";
+                            }
                         })
                         .catch((error) => {
                             console.error("Fehler beim Laden der Cars:", error);
@@ -43,8 +47,11 @@ export function TournamentDetailPage() {
                 {tournament.street}, {tournament.zip} {tournament.city}
             </p>
             <p><b>Beschreibung:</b><br />{tournament.description}</p>
+            <div id={"placeholder"}>
+                <i>Noch keine Autos gemeldet.</i>
+            </div>
             {cars.map((car)=>(
-                <RenderedCar car={car} />
+                <RenderedCar car={car} user={userObject.user} />
             ))}
 
         </div>
