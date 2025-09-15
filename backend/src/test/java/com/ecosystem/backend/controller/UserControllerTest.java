@@ -40,7 +40,8 @@ class UserControllerTest {
                         "id":"0",
                         "displayName":"Demo User",
                         "jerseyNumber":"0",
-                        "avatar_url":"http://localhost:5173/src/assets/free.png"
+                        "avatar_url":"http://localhost:5173/src/assets/free.png",
+                        "gitHubId" : ""
                     }
                     """));
     }
