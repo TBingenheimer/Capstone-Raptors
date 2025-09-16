@@ -74,11 +74,11 @@ class UserServiceTest {
 
     @Test
     void testGetUserByGithubId_UserNotFoundReturnsDemoUser() {
-        when(userRepo.findByGitHubId("gh999")).thenReturn(Optional.empty());
+        when(userRepo.findByGitHubId("12345")).thenReturn(Optional.empty());
 
-        User result = userService.getUserByGithubId("gh999");
+        User result = userService.getUserByGithubId("12345");
 
         assertEquals("Demo User", result.displayName());
-        verify(userRepo, times(1)).findByGitHubId("gh999");
+        verify(userRepo, times(1)).findByGitHubId("12345");
     }
 }
