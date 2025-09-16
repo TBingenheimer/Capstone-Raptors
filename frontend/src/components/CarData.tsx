@@ -19,16 +19,17 @@ export function carData(props: any) {
 
 
     return (
-        <>
-        <form>
-            <label>Anzahl verfügbarer Sitze:<br />
-                <input type="number" name={"availableSeats"} onChange={"setCar"} value={car.availableSeats} />
-            </label>
-            <label>Anzahl verfügbarer Sitze:<br />
-                <input type="datetime-local" name={"takeOffTime"} onChange={"setCar"} value={car.takeOffTime} />
-            </label>
-            <input type={"submit"} value={"Speichern"} />
-        </form>
-        </>
+        <div id={"carCreate"} onSubmit={sendData} className={"contentWrap"}>
+            <h1>Neues Auto anlegen</h1>
+            <form id={"carCreateForm"}>
+                <label>Verfügbare Sitze (exklusive Fahrer): <br />
+                    <input type={"text"} id={"availableSeats"} name={"availableSeats"} value={car.availableSeats} onChange={setValues} />
+                </label>
+                <label>Abfahrtzeit:<br />
+                    <input type={"datetime-local"} name={"takeOffTime"} value={car.takeOffTime}  onChange={setValues}/>
+                </label>
+                <input type={"submit"} id={"carSubmit"} value={"Speichern"} />
+            </form>
+        </div>
     )
 }

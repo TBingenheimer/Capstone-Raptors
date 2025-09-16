@@ -5,11 +5,13 @@ import axios from "axios";
 import {type ChangeEvent, type FormEvent, useEffect, useId, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import type {TournamentObject} from "../types/Tournament.ts";
+import {routerConfig} from "../routerConfig.ts";
 
 export function CarCreate(userParam: UserObject) {
     const navigate = useNavigate();
-    let params = useParams();
     const [tournament, setTournament] = useState<TournamentObject[]>([]);
+    let params = useParams();
+
     const [car, setCar] = useState<CarObject>({
         id:crypto.randomUUID(),
         driverId:userParam.user.id,
@@ -29,8 +31,15 @@ export function CarCreate(userParam: UserObject) {
 
     function sendData(e:FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        const {id,...carWithoutId} = car;
-        axios.post("/api/cars/createCar", carWithoutId, {
+        let saveCar;
+        if(params.carId===undefined){
+             const {id,...carWithoutId} = car;
+             saveCar = carWithoutId;
+        }else{
+             saveCar = car;
+        }
+
+        axios.post("/api/cars/createCar", saveCar, {
             headers: {
                 "Content-Type": "application/json",
             }
@@ -38,6 +47,12 @@ export function CarCreate(userParam: UserObject) {
         navigate("/turnier/"+params.name);
     }
     useEffect(() => {
+        if(params.carId!==undefined) {
+            axios.get<CarObject>("/api/cars/getCar/" + params.carId)
+                .then((response) => {
+                    setCar(response.data);
+                });
+        }
         axios.get("/api/tournament/getTournament/"+params.name)
             .then((response) => {
                 car.tournamentId=response.data.id;
@@ -45,8 +60,12 @@ export function CarCreate(userParam: UserObject) {
             );
     },[]);
 
+    console.log(car);
     return(<div id={"carCreate"} onSubmit={sendData} className={"contentWrap"}>
-        <h1>Neues Auto anlegen</h1>
+        <div id={"carDataForm"}>
+            <a href={`${routerConfig.URL.TURNIER}/${params.name}`}>&lt; Zurück</a>
+        </div>
+        <h1>{params.carId===undefined?"Neues Auto anlegen":"Auto bearbeiten"}</h1>
         <form id={"carCreateForm"}>
             <label>Verfügbare Sitze (exklusive Fahrer): <br />
                 <input type={"text"} id={"availableSeats"} name={"availableSeats"} value={car.availableSeats} onChange={setValues} />

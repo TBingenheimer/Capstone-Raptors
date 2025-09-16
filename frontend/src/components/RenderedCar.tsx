@@ -2,12 +2,16 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {CarBackseat} from "./CarBackseat.tsx";
 import type {CarObject} from "../types/Car.ts";
+import {routerConfig} from "../routerConfig.ts";
+import {useNavigate, useParams} from "react-router-dom";
 
 
 export function RenderedCar(props){
     const [driver,setDriver]= useState("");
     const [shotgun,setShotgun]= useState("");
     const [rear,setRearender]= useState([]);
+    const navigate = useNavigate();
+    let params = useParams();
 
     const nonoImage = "http://localhost:5173/src/assets/nono.png";
 
@@ -101,20 +105,39 @@ export function RenderedCar(props){
         }
         return returnContent;
     }
-
+    function removeCar(car:CarObject){
+        axios.delete("/api/cars/deleteCar/"+car)
+            .then((response) => {
+                props.loadCars();
+            });
+    }
     useEffect(()=>{
         setRear();
     },[]);
+
     let killButton;
+    let editButton;
     if(props.car.driverId === props.user.id){
-      killButton=<button className={"killTheCar"}><img src={"../src/assets/trash.png"} /></button>;
+      killButton = <button className={"killTheCar"} onClick={()=>{
+          let r = confirm("Bist du sicher? Alle deine Mitfahrer werden obdachlos...")
+          if(r){
+              removeCar(props.car.id)
+          }
+      }}><img src={"../src/assets/trash.png"} /></button>;
+      editButton = <button className={"editTheCar"} onClick={()=>{
+          navigate(`${routerConfig.URL.TURNIER}/${params.name}/${props.car.id}`);
+      }}><img src={"../src/assets/edit.png"} /></button>;
     }else{
         killButton="";
+        editButton="";
     }
+
+
 
     return (
         <div className={"car"} key={props.car.driverId}>
             {killButton}
+            {editButton}
             <div className="goTime">
                 <b>Abfahrtzeit:</b> {props.car.takeOffTime}
             </div>

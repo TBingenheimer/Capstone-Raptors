@@ -49,4 +49,7 @@ public class CarsService {
         carRepo.save(updatedCar);
         return updatedCar;
     }
+    public void deleteCar(String id){
+        carRepo.deleteById(id);
+    }
 }
