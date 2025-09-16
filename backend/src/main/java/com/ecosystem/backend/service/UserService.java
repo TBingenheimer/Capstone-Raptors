@@ -31,13 +31,18 @@ public class UserService {
 
         return user;
     }
-    public Integer getUserByGithubId(String gitHubId){
+    public User getUserByGithubId(String gitHubId){
         Optional<User> user = userRepo.findByGitHubId(gitHubId);
         if(user.isEmpty()){
-            return 0;
+            return new User(
+                    "0",
+                    "Demo User",
+                    "0",
+                    "http://localhost:5173/src/assets/free.png",
+                    "12345"
+            );
         }else {
-            System.out.println(user);
-            return 1;
+            return user.get();
         }
     }
 }
