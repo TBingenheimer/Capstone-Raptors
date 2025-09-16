@@ -40,7 +40,8 @@ class UserControllerTest {
                         "id":"0",
                         "displayName":"Demo User",
                         "jerseyNumber":"0",
-                        "avatar_url":"http://localhost:5173/src/assets/free.png"
+                        "avatar_url":"http://localhost:5173/src/assets/free.png",
+                        "gitHubId" : ""
                     }
                     """));
     }
@@ -51,4 +52,20 @@ class UserControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void getUserByGithubId_should_return_default_user() throws Exception {
+        mockMvc.perform(get("/api/user/getuserByGithubId/12345"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                    {
+                        "id":"0",
+                        "displayName":"Demo User",
+                        "jerseyNumber":"0",
+                        "avatar_url":"http://localhost:5173/src/assets/free.png",
+                        "gitHubId" : "12345"
+                    }
+                    """));
+    }
+
 }
+

@@ -3,8 +3,10 @@ import "../styles/TournamentCreate.css";
 import type {Tournament} from "../types/Tournament.ts";
 import axios from "axios";
 import {type ChangeEvent, type FormEvent, useEffect, useId, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 export function TournamentCreate(user: UserObject) {
+    const navigate = useNavigate();
     const [tournament, setTournament] = useState<Tournament>({
         id:crypto.randomUUID(),
         name:"",
@@ -31,7 +33,10 @@ export function TournamentCreate(user: UserObject) {
             headers: {
                 "Content-Type": "application/json",
             }
+        }).then(() => {
+            navigate("/");
         });
+
     }
 
     return(<div id={"tournamentCreate"} onSubmit={sendData} className={"contentWrap"}>

@@ -10,12 +10,16 @@ import {Navbar} from "./components/Navbar.tsx";
 function App() {
     const [user, setUser] = useState<UserObject>(undefined);
 
-
     const loadUser = () => {
         axios.get("/api/auth")
             .then((response) => {
                 let userData = response.data.attributes;
-                setUser(userData
+                axios.get("/api/user/getuserByGithubId/"+userData.id).then(
+                    (dbResponse) => {
+                        userData.gitHubId = userData.id;
+                        userData.id = dbResponse.data.id;
+                        setUser(userData);
+                    }
                 );
             });
     }

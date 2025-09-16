@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.client.AutoConfigureMockRestServiceServer;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -33,15 +35,36 @@ class CarControllerTest {
         mockMvc.perform(get("/api/cars/getCars/0"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
-                    [{
-                            "driverId":"0",
-                            "tournamentId":"0",
-                            "availableSeats":"0",
-                            "takeOffTime":"n/a",
-                            "shotgun": "",
-                            "rear":[""]
-                        }]
+                    []
                     """));;
+    }
+    @Test
+    void saveCar_should_return_carObject() throws Exception {
+        mockMvc.perform(
+                        post("/api/cars/createCar")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                  {
+                                    "driverId":"",
+                                    "shotgun":"",
+                                    "availableSeats":"",
+                                    "takeOffTime":"",
+                                    "tournamentId":"",
+                                    "rear":[]
+                                  }
+                """))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                      {
+                        "driverId":"",
+                        "shotgun":"",
+                        availableSeats: "",
+                        takeOffTime: "",
+                        tournamentId: "",
+                        "rear":[]
+                        }
+                    
+                    """));
     }
 
 }

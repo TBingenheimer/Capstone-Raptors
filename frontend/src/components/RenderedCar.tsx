@@ -1,48 +1,120 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {CarBackseat} from "./CarBackseat.tsx";
+import type {CarObject} from "../types/Car.ts";
+
 
 export function RenderedCar(props){
     const [driver,setDriver]= useState("");
     const [shotgun,setShotgun]= useState("");
     const [rear,setRearender]= useState([]);
-    //console.log("Driver id: ",props.car.driverId);
 
-    useEffect(()=>{
-       axios.get("/api/user/getAllUsers")
-           .then((response)=>{
+    const nonoImage = "http://localhost:5173/src/assets/nono.png";
+
+    function setRear(){
+        axios.get("/api/user/getAllUsers")
+            .then((response)=>{
                 response.data.map((e)=>{
                     const users = response.data;
 
                     const driverUser = users.find((u) => u.id == props.car.driverId);
                     if (driverUser) setDriver(driverUser);
-
                     const shotgunUser = users.find((u) => u.id == props.car.shotgun);
+                    let seatsLeft=props.car.availableSeats - (shotgunUser!==undefined?1:0);
+
+                    const rearUsers = props.car.rear
+                        .map(id => users.find(u => u.id === id))
+                        .filter(Boolean);
+                    const seatedRearUsers=rearUsers.length;
+                    if(seatedRearUsers<seatsLeft){
+                        for(let i=seatedRearUsers;i<seatsLeft;i++){
+                            rearUsers[i] = {"id":"","avatar_url":"http://localhost:5173/src/assets/free.png","name":"free"}
+                        }
+                    }
+                    if(rearUsers.length<3){
+                        for(let i=rearUsers.length;i<3;i++){
+                            rearUsers[i] = {"id":"","avatar_url":undefined,"name":"nono"}
+                        }
+                    }
+
                     if (shotgunUser) {
                         setShotgun(shotgunUser);
                     }else{
-                        setShotgun({"id":"","avatar_url":"http://localhost:5173/src/assets/free.png"});
-                    }
-
-                    let seatsLeft=props.car.availableSeats - (shotgunUser!==undefined?1:0);
-                    const rearUsers = users.filter((u) => props.car.rear.includes(u.id));
-                    if(rearUsers.length<seatsLeft){
-                        for(let i=rearUsers.length;i<seatsLeft;i++){
-                            rearUsers[i] = {"id":"","avatar_url":"http://localhost:5173/src/assets/free.png","name":"free"}
+                        let shotgunObject = {"id":"","avatar_url":"http://localhost:5173/src/assets/free.png","name":"free"};
+                        if(seatedRearUsers>=seatsLeft){
+                            shotgunObject = {"id":"","avatar_url":undefined,"name":"nono"};
                         }
+                        setShotgun(shotgunObject);
                     }
                     setRearender(rearUsers);
                 });
 
-           });
-       axios.get("/api/user/getUser/0")
-           .then((response)=>{
-               console.log(response);
-           })
+            });
+    }
+
+    function updateCar(car:CarObject,position:string,isSat:boolean){
+        let updatedCar = props.car;
+        if(position==="rear") {
+            if (isSat) {
+                updatedCar.rear = updatedCar.rear.filter(existingId => existingId !== String(props.user.id));
+            } else {
+                updatedCar.rear.push(String(props.user.id));
+            }
+        }else{
+            if (isSat) {
+                updatedCar.shotgun = "";
+            } else {
+                updatedCar.shotgun = String(props.user.id);
+            }
+        }
+
+        axios.put("/api/cars/updatePassengers", updatedCar,{
+            headers: {
+                "Content-Type" : "application/json",
+            }
+        }).then(() => {
+            setRear();
+        });
+    }
+
+    function seatOutput(seatData,position:string){
+        let returnContent;
+        if(seatData.avatar_url!==undefined){
+            let imgString = <img src={seatData.avatar_url} />;
+            if(seatData.name==="free"){
+                returnContent =
+                    <a onClick={()=>updateCar(props.car,position,false)} title={"Mitfahren"}>
+                        {imgString}
+                    </a>;
+            }else{
+                if(seatData.id===String(props.user.id)){
+                    returnContent =
+                        <a onClick={()=>updateCar(props.car,position,true)} title={"Doch nicht mitfahren"}>
+                            {imgString}
+                        </a>;
+                }else{
+                    returnContent = imgString;
+                }
+            }
+        }else{
+            returnContent = <img src={nonoImage} />;
+        }
+        return returnContent;
+    }
+
+    useEffect(()=>{
+        setRear();
     },[]);
-    let nonoImage = "http://localhost:5173/src/assets/nono.png";
+    let killButton;
+    if(props.car.driverId === props.user.id){
+      killButton=<button className={"killTheCar"}><img src={"../src/assets/trash.png"} /></button>;
+    }else{
+        killButton="";
+    }
 
     return (
         <div className={"car"} key={props.car.driverId}>
+            {killButton}
             <div className="goTime">
                 <b>Abfahrtzeit:</b> {props.car.takeOffTime}
             </div>
@@ -51,19 +123,15 @@ export function RenderedCar(props){
                     <img src={driver.avatar_url} alt="" />
                 </div>
                 <div className={"rider shotgun"}>
-                    {((shotgun?.avatar_url!==undefined)?<img src={shotgun?.avatar_url} />:'')}
+                    {seatOutput(shotgun,"shotgun")}
                 </div>
             </div>
             <div className={"backRow"}>
-                <div className={"rider left"}>
-                    {((rear[0]?.avatar_url!==undefined)?<img src={rear[0]?.avatar_url} />:<img src={nonoImage} />)}
-                </div>
-                <div className={"rider middle"}>
-                    {((rear[1]?.avatar_url!==undefined)?<img src={rear[1]?.avatar_url} />:<img src={nonoImage} />)}
-                </div>
-                <div className={"rider right"}>
-                    {((rear[2]?.avatar_url!==undefined)?<img src={rear[2]?.avatar_url} />:<img src={nonoImage} />)}
-                </div>
+                {
+                    rear.map((e,index)=>{
+                        return <CarBackseat seatData={e} index={index}  user={props.user} car={props.car} setRear={setRear} updateCar={updateCar} seatOutput={seatOutput} />
+                    })
+                }
             </div>
             <div style={{clear:"both"}} />
         </div>
