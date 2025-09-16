@@ -15,9 +15,9 @@ function App() {
             .then((response) => {
                 let userData = response.data.attributes;
                 axios.get("/api/user/getuserByGithubId/"+userData.id).then(
-                    (response) => {
+                    (dbResponse) => {
                         userData.gitHubId = userData.id;
-                        userData.id = response.data;
+                        userData.id = dbResponse.data.id;
                         setUser(userData);
                     }
                 );
