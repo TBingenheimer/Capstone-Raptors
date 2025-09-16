@@ -54,7 +54,7 @@ class UserControllerTest {
 
     @Test
     void getUserByGithubId_should_return_default_user() throws Exception {
-        mockMvc.perform(get("/getuserByGithubId/12345"))
+        mockMvc.perform(get("/api/user/getuserByGithubId/12345"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                     {
