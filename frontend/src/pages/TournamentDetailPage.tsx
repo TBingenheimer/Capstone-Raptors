@@ -17,7 +17,9 @@ export function TournamentDetailPage(userObject) {
     let params = useParams();
 
     useEffect(() => {
-        console.log(userObject);
+        loadCars();
+    },[]);
+    function loadCars(){
         axios.get("/api/tournament/getTournament/"+params.name)
             .then((response) => {
                     setTournamentData(response.data);
@@ -33,7 +35,7 @@ export function TournamentDetailPage(userObject) {
                         });
                 }
             );
-    },[]);
+    }
     function addNewCar(){
         navigate("/turnier/"+params.name+"/add");
     }
@@ -51,7 +53,7 @@ export function TournamentDetailPage(userObject) {
                 <i>Noch keine Autos gemeldet.</i>
             </div>
             {cars.map((car)=>(
-                <RenderedCar car={car} user={userObject.user} />
+                <RenderedCar car={car} user={userObject.user} loadCars={loadCars} />
             ))}
 
         </div>

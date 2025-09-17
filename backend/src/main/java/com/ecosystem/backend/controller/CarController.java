@@ -31,4 +31,8 @@ public class CarController {
     public Car updatePassengers(@RequestBody Car car) {
         return carsService.sitDown(car);
     }
+    @DeleteMapping("/deleteCar/{id}")
+    public void deleteCar(@PathVariable String id) {
+        carsService.deleteCar(id);
+    }
 }
