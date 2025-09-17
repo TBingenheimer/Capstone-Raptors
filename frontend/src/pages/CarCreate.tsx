@@ -60,7 +60,6 @@ export function CarCreate(userParam: UserObject) {
             );
     },[]);
 
-    console.log(car);
     return(<div id={"carCreate"} onSubmit={sendData} className={"contentWrap"}>
         <div id={"carDataForm"}>
             <a href={`${routerConfig.URL.TURNIER}/${params.name}`}>&lt; Zurück</a>
