@@ -24,6 +24,11 @@ public class TournamentController {
     public Tournament getTournament( @PathVariable String turnier){
         return tournamentService.findTournamentByName(turnier);
     }
+
+    @GetMapping("/getTugenyResults/{tugenyId}")
+    public TugenyResult getTugenyResult(String tugenyId){
+        return tournamentService.getTugenyResult(tugenyId);
+    }
     @PostMapping("/createTournament")
     public Tournament createTournament(@RequestBody Tournament tournament){
         return tournamentService.createTournament(tournament);
