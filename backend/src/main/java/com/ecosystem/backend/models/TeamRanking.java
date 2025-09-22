@@ -1,6 +1,3 @@
-package com.ecosystem.backend.models;
+package com.ecosystem.backend.models; public record TeamRanking( int team_id, String team_name ) {
 
-public record TeamRanking(
-        int team_id,
-        String team_name
-) {}
+}
