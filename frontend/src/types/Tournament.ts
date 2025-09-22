@@ -8,6 +8,7 @@ export type TournamentObject = {
     startDateTime : string,
     endDateTime : string,
     participants : number,
+    tugenyId : string,
 }
 
 export type Tournament = TournamentObject

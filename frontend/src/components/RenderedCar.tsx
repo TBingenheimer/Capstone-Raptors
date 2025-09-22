@@ -4,6 +4,7 @@ import {CarBackseat} from "./CarBackseat.tsx";
 import type {CarObject} from "../types/Car.ts";
 import {routerConfig} from "../routerConfig.ts";
 import {useNavigate, useParams} from "react-router-dom";
+import {formatDate} from "../utils/formatDate.ts";
 
 
 export function RenderedCar(props){
@@ -12,6 +13,7 @@ export function RenderedCar(props){
     const [rear,setRearender]= useState([]);
     const navigate = useNavigate();
     let params = useParams();
+    const isInThePast = props.isInThePast;
 
     const nonoImage = "http://localhost:5173/src/assets/nono.png";
 
@@ -85,13 +87,13 @@ export function RenderedCar(props){
         let returnContent;
         if(seatData.avatar_url!==undefined){
             let imgString = <img src={seatData.avatar_url} />;
-            if(seatData.name==="free"){
+            if(seatData.name==="free" && !isInThePast){
                 returnContent =
                     <a onClick={()=>updateCar(props.car,position,false)} title={"Mitfahren"}>
                         {imgString}
                     </a>;
             }else{
-                if(seatData.id===String(props.user.id)){
+                if(seatData.id===String(props.user.id) && !isInThePast){
                     returnContent =
                         <a onClick={()=>updateCar(props.car,position,true)} title={"Doch nicht mitfahren"}>
                             {imgString}
@@ -117,7 +119,7 @@ export function RenderedCar(props){
 
     let killButton;
     let editButton;
-    if(props.car.driverId === props.user.id){
+    if(props.car.driverId === props.user.id && !isInThePast){
       killButton = <button className={"killTheCar"} onClick={()=>{
           let r = confirm("Bist du sicher? Alle deine Mitfahrer werden obdachlos...")
           if(r){
@@ -139,7 +141,7 @@ export function RenderedCar(props){
             {killButton}
             {editButton}
             <div className="goTime">
-                <b>Abfahrtzeit:</b> {props.car.takeOffTime}
+                <b>Abfahrtzeit:</b> {formatDate(props.car.takeOffTime)}
             </div>
             <div className={"frontRow"}>
                 <div className={"rider driver"}>
@@ -152,7 +154,7 @@ export function RenderedCar(props){
             <div className={"backRow"}>
                 {
                     rear.map((e,index)=>{
-                        return <CarBackseat seatData={e} index={index}  user={props.user} car={props.car} setRear={setRear} updateCar={updateCar} seatOutput={seatOutput} />
+                        return <CarBackseat key={index} seatData={e} index={index}  user={props.user} car={props.car} setRear={setRear} updateCar={updateCar} seatOutput={seatOutput} tournament={props.tournament} />
                     })
                 }
             </div>

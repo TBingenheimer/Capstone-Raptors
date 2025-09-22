@@ -8,8 +8,12 @@ export function ConditionalNav({user}:UserObject){
                     <a href={"/turniere"}>Offene Turniere</a>
                 </li>
                 <li>
+                    <a href={"/vergangene_turniere"}>Vergangene Turniere</a>
+                </li>
+                <li>
                     <a href={"/turnier/anlegen"}>Neues Turnier</a>
-                </li></>
+                </li>
+            </>
         );
     }else{
         return "";
