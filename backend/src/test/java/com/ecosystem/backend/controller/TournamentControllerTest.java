@@ -48,7 +48,7 @@ class TournamentControllerTest {
 
     @Test
     void getTournament_should_return_defaultTournamentObject() throws Exception {
-        Tournament tournament = new Tournament("0","","","", "", "", "-", "-", 0);
+        Tournament tournament = new Tournament("0","","","", "", "", "-", "-", 0,"");
         tournamentRepo.save(tournament);
 
         mockMvc.perform(get("/api/tournament/getTournament/0"))
@@ -58,7 +58,7 @@ class TournamentControllerTest {
 
     @Test
     void saveTournament_should_return_tournamentObject() throws Exception {
-        Tournament tournament = new Tournament("0","","","", "", "", "-", "-", 0);
+        Tournament tournament = new Tournament("0","","","", "", "", "-", "-", 0,"");
 
         mockMvc.perform(
                         post("/api/tournament/createTournament")
