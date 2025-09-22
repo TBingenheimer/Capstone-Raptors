@@ -24,8 +24,8 @@ class TournamentServiceTest {
 
     @Test
     void getAllTournaments_shouldReturnTournaments_whenRepoNotEmpty() {
-        Tournament t1 = new Tournament("1", "Deutsche Meisterschaft", "Juhu wir fahren nach Berlin", "2025-01-01", "12345", "Berlin", "-", "-", 10);
-        Tournament t2 = new Tournament("2", "Westfälische Meisterschaft", "Ab nach Bonn", "2025-02-01", "6589", "Bonn", "-", "-", 20);
+        Tournament t1 = new Tournament("1", "Deutsche Meisterschaft", "Juhu wir fahren nach Berlin", "2025-01-01", "12345", "Berlin", "-", "-", 10,"");
+        Tournament t2 = new Tournament("2", "Westfälische Meisterschaft", "Ab nach Bonn", "2025-02-01", "6589", "Bonn", "-", "-", 20,"");
         when(tournamentRepo.findAll()).thenReturn(List.of(t1, t2));
 
         Tournaments result = tournamentService.getAllTournaments();
