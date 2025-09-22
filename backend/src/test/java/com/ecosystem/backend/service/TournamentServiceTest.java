@@ -48,7 +48,7 @@ class TournamentServiceTest {
 
     @Test
     void findTournamentByName_shouldReturnTournament_whenExists() {
-        Tournament t = new Tournament("1", "Summer Cup", "Dolles Turnier", "2025-01-01", "45677", "Bochum", "-", "-", 16);
+        Tournament t = new Tournament("1", "Summer Cup", "Dolles Turnier", "2025-01-01", "45677", "Bochum", "-", "-", 16,"");
         when(tournamentRepo.findTournamentByName("Summer Cup")).thenReturn(t);
 
         Tournament result = tournamentService.findTournamentByName("Summer Cup");
@@ -69,7 +69,7 @@ class TournamentServiceTest {
 
     @Test
     void createTournament_shouldSaveAndReturnTournament() {
-        Tournament newTournament = new Tournament("1", "Bergische Meisterschaft", "Schön hier", "2025-03-01", "88888", "Whoppertal", "-", "-", 8);
+        Tournament newTournament = new Tournament("1", "Bergische Meisterschaft", "Schön hier", "2025-03-01", "88888", "Whoppertal", "-", "-", 8,"");
         when(tournamentRepo.save(newTournament)).thenReturn(newTournament);
 
         Tournament result = tournamentService.createTournament(newTournament);
