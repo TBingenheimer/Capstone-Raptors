@@ -4,7 +4,7 @@ import {TournamentCard} from "../components/TournamentCard.tsx";
 import "../styles/TournamentOverview.css";
 import axios from "axios";
 import {useEffect, useState} from "react";
-import {map} from "react-bootstrap/ElementChildren";
+
 
 type turnierProps = {
     user : UserObject;
@@ -27,31 +27,27 @@ export function TournamentOverviewPage({user, subpage}:turnierProps) {
                 setPastTournaments(pastTournaments);
             });
     },[]);
-    function formatDate(date){
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        const hour = String(date.getHours()).padStart(2, "0");
-        const minutes = String(date.getMinutes()).padStart(2, "0");
-        const seconds = String(date.getSeconds()).padStart(2, "0");
 
-        return `${year}-${month}-${day}T${hour}:${minutes}:${seconds}`;
-    };
-
+    console.log(subpage);
 
     return (
         <div className="tournament-card-wrap contentWrap">
             <link href={"../src/styles/TournamentOverview.css"} rel="stylesheet" />
-            <h1 style={{width:"100%"}}>Offene Turniere</h1>
-            {openTournaments.map((tournament:TournamentObject)=> {
-                return <TournamentCard key={tournament.name} tournament={tournament} formatDate={formatDate} />
-            })}
+            {(subpage === "open" || subpage === "all") && (
+                <>
+                    <h1 style={{width:"100%"}}>Offene Turniere</h1>
+                    {openTournaments.map((tournament:TournamentObject)=> {
+                        return <TournamentCard key={tournament.name} tournament={tournament} />
+                    })}
+                </>
+            )}
+
             <div style={{clear:"both"}}></div>
             {subpage !== "open" && (
                 <>
                     <h1 style={{width:"100%"}}>Abgeschlossene Turniere</h1>
                     {pastTournaments.map((tournament:TournamentObject)=> {
-                        return <TournamentCard key={tournament.name} tournament={tournament}  formatDate={formatDate} />
+                        return <TournamentCard key={tournament.name} tournament={tournament} />
                     })}
                 </>
             )}

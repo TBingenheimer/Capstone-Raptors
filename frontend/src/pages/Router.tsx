@@ -15,14 +15,16 @@ type RouterProps = {
 }
 
 export function Router({user}:RouterProps){
+
     return (
         <Routes>
-            <Route path="/"  element={<HomePage  user={user}/>} />
-            <Route path={routerConfig.URL.HOME} element={<HomePage user={user} supage="all"/>} />
-            <Route path={routerConfig.URL.LOGOUT} element={<HomePage user={user} subpage="all"/>}/>
+            <Route path="/"  element={<HomePage  user={user} subpage="all"/>} />
+            <Route path={routerConfig.URL.HOME} element={<HomePage user={user} subpage="all" />} />
+            <Route path={routerConfig.URL.LOGOUT} element={<HomePage user={user} subpage="all" />}/>
             <Route element={<ProtectedRoute user={user}/>} >
-                <Route path={routerConfig.URL.TURNIERE} element={<TournamentOverviewPage user={user} subpage="open"/>}/>
-                <Route path={`${routerConfig.URL.TURNIER}/:name`} element={<TournamentDetailPage user={user} />}/>
+                <Route path={routerConfig.URL.TURNIERE} element={<TournamentOverviewPage user={user} subpage="open"  />}/>
+                <Route path={routerConfig.URL.PASTTURNIERE} element={<TournamentOverviewPage user={user} subpage="past"  />}/>
+                <Route path={`${routerConfig.URL.TURNIER}/:name`} element={<TournamentDetailPage user={user}  />}/>
                 <Route path={`${routerConfig.URL.TURNIER}/:name/add`} element={<CarCreate user={user} />}/>
                 <Route path={`${routerConfig.URL.TURNIER}/:name/:carId`} element={<CarCreate user={user} />}/>
                 <Route path={routerConfig.URL.TOURNAMENT_CREATE} element={<TournamentCreate user={user} />} />

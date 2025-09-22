@@ -7,6 +7,8 @@ import {RenderedCar} from "../components/RenderedCar.tsx";
 import type {CarObject} from "../types/Car.ts";
 import {TrainSeat} from "../components/TrainSeat.tsx";
 import type {UserObject} from "../types/User.ts";
+import {formatDate} from "../utils/formatDate.ts";
+import {MatchResult} from "../components/MatchResult.tsx";
 
 type TournamentDetailPage = {
     tournament: TournamentObject;
@@ -18,15 +20,21 @@ export function TournamentDetailPage(userObject) {
     const [tournament, setTournamentData] = useState<TournamentObject[]>([]);
     const [trainSeats,setTrainSeats] = useState<UserObject[]>([]);
     const [rideTheRails, setRideTheRails] = useState("");
+    const [tugenyResults, setTugenyResults] = useState([]);
+    const [tugenyRank, setTugenyRank] = useState("");
     let params = useParams();
+    const isInThePast = new Date(tournament.startDateTime) < new Date();
 
     useEffect(() => {
-        loadCars();
+        loadData();
     },[]);
-    function loadCars(){
+    function loadData(){
         axios.get("/api/tournament/getTournament/"+params.name)
             .then((response) => {
                     setTournamentData(response.data);
+                    if(isInThePast){
+                        getTugenyData(response.data.tugenyId);
+                    }
                     loadTrain(response.data.id)
                     axios.get<CarObject[]>("/api/cars/getCars/"+response.data.id)
                         .then((response)=>{
@@ -49,7 +57,6 @@ export function TournamentDetailPage(userObject) {
             // 1. Cars/Teilnahmen laden
             const trainRes = await axios.get("/api/train/getTrain/"+tournamentId);
             if(trainRes.status === 200){
-                document.querySelector("#noTrainees").style.display="none";
                 const train = trainRes.data;
 
 
@@ -70,11 +77,6 @@ export function TournamentDetailPage(userObject) {
                         avatar_url: user ? user.avatar_url : null,
                     };
                 });
-                if(userInTrain){
-                    document.querySelector("#trainHeadline button").style.display="none";
-                }else{
-                    document.querySelector("#trainHeadline button").style.display="inline-block";
-                }
 
                 setTrainSeats(merged);
             }
@@ -93,13 +95,29 @@ export function TournamentDetailPage(userObject) {
                 }
             }).then(()=>loadTrain(tournament.id));
     }
+    function getTugenyData(tugenyId){
+        axios.get("/api/tournament/getTugenyResults").then((response) => {
+            setTugenyResults(response.data.matches.filter((r)=>r.tournament_id==tugenyId));
+        });
+        axios.get("/api/tournament/getTugenyTournamentRanking/"+tugenyId).then((response) => {
+            const rankings=response.data.rankings;
+            Object.entries(rankings).forEach((team,rank) => {
+                if(team[1].team_id===5){
+                    setTugenyRank(team[0]);
+                }
+            })
+        });
+    }
 
 
     return (
         <div className="tournament-detail-wrap contentWrap">
-            <button onClick={addNewCar} id={"newCarButton"}>+ Neues Auto hinzufügen</button>
+            {!isInThePast && (<button onClick={addNewCar} id={"newCarButton"}>+ Neues Auto hinzufügen</button>)}
             <h1 style={{marginBottom:"0"}}>{tournament.name}</h1>
-            <p style={{fontSize:"0.8em",marginTop:"0",color:"gray",fontStyle:"italic"}}>{tournament.startDateTime} - {tournament.endDateTime}</p>
+            <p>
+                <b>Start:</b> {formatDate(tournament.startDateTime)} <br/>
+                <b>Ende:</b> {formatDate(tournament.endDateTime)}
+            </p>
             <p><b>Adresse:</b><br />
                 {tournament.street}, {tournament.zip} {tournament.city}
             </p>
@@ -109,20 +127,42 @@ export function TournamentDetailPage(userObject) {
             </div>
             <div style={{width:"100%"}}>
             {cars.map((car)=>(
-                <RenderedCar car={car} user={userObject.user} loadCars={loadCars} />
+                <RenderedCar car={car} key={car.id} user={userObject.user} loadCars={loadData} tournament={tournament} isInThePast={isInThePast} />
             ))}
                 <div style={{clear:"both"}}></div>
             </div>
             <h2 id={"trainHeadline"}>
                 Bahnfahrer
-                <button onClick={boardDaTrain}>Ich mag Züge!</button>
+                {!isInThePast && (
+                    <button onClick={boardDaTrain}>Ich mag Züge!</button>
+                )}
             </h2>
-            <div id={"train"}>
-                <div id={"noTrainees"}>Noch niemand hat sich für die Bahn eingetragen</div>
-                {trainSeats.map((seat)=>(
-                    <TrainSeat seat={seat} user={userObject.user} loadTrain={loadTrain} />
-                ))}
+            <div id="train">
+                {trainSeats.length === 0 ? (
+                    <div id="noTrainees">Noch niemand hat sich für die Bahn eingetragen</div>
+                ) : (
+                    trainSeats.map((seat) => (
+                        <TrainSeat
+                            key={seat.id}
+                            seat={seat}
+                            user={userObject.user}
+                            loadTrain={loadTrain}
+                        />
+                    ))
+                )}
             </div>
+            {isInThePast && (
+                <>
+                    <h2 style={{marginTop:"60px"}}>Spielergebnisse</h2>
+                    <b>Platz: </b>{tugenyRank}<br /><br />
+                    <b>Spiele: </b>
+                    <div id={"tugenyResults"}>
+                        {tugenyResults.map((result) => (
+                            <MatchResult result={result} key={result.id} />
+                        ))}
+                    </div>
+                </>
+            )}
         </div>
     );
 }

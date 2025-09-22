@@ -13,5 +13,6 @@ public record Tournament(
         String city,
         String startDateTime,
         String endDateTime,
-        Integer participants) {
+        Integer participants,
+        String tugenyId) {
 }
